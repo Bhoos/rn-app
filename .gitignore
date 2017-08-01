@@ -54,3 +54,8 @@ fastlane/screenshots
 
 # To avoid conflicts use single node package manager
 yarn.lock
+
+# Ignore lerna debug files
+lerna-debug.log
+
+
