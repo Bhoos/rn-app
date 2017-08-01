@@ -1,0 +1,24 @@
+{
+  "name": "@bhoos/rn-app",
+  "version": "1.0.0",
+  "description": "Application router/navigator",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.5.10",
+    "react": "16.0.0-alpha.12",
+    "react-native": "0.46.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bhoos/rn-lib.git#app"
+  },
+  "author": "Ranjan Shrestha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bhoos/rn-lib/issues"
+  },
+  "homepage": "https://github.com/bhoos/rn-lib/tree/app#readme"
+}
