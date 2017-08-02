@@ -3,10 +3,9 @@ import { Component, Element } from 'react';
 
 export type Route = {
   path: string,
-  scene: Component,
+  screen: Component,
   title?: string,
   description?: string,
-  fullsize?: boolean,
 };
 
 export type RouteId = {
@@ -23,7 +22,7 @@ export interface Container {
   setScenes(scenes: Array<Element>): void;
 }
 
-export interface Router {
+export interface RouterInterface {
   getRoute(path: string): Route,
   getCurrentRoute(): RouteId;
 
@@ -32,6 +31,6 @@ export interface Router {
 
   addRouteChangeListener(listener: RouteChangeListener): RouteListenerUnsubscribe;
 
-  attach(container: Container): void;
-  detach(container: Container): void;
+  attach(frame: Frame): void;
+  detach(frame: Frame): void;
 }

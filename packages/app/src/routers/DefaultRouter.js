@@ -1,7 +1,7 @@
 // @flow
 import { Element } from 'react';
+import Router from './Router';
 import {
-  Router,
   Route,
   RouteId,
   RouteChangeListener,
@@ -9,7 +9,7 @@ import {
   Scene,
 } from '../types';
 
-class DefaultRouter implements Router {
+class DefaultRouter extends Router {
   routes: Array<Route>;
   currentRoute: RouteId;
   listeners: Array<RouteChangeListener>;
@@ -19,26 +19,15 @@ class DefaultRouter implements Router {
   scenes: Array<Element>;
 
   constructor(routes: Array<Route>, initialRoute: string | RouteId) {
-    this.routes = routes;
+    super(routes);
     this.currentRoute = typeof initialRoute === 'string' ? {
       path: initialRoute,
       params: {},
     } : initialRoute;
     this.listeners = [];
-    this.appInstance = null;
+    this.frame = null;
     this.inTransition = true;
     this.scenes = [];
-  }
-
-  attach(app: Component) {
-    this.appInstance = app;
-  }
-
-  detach(app: Component) {
-    if (this.appInstance !== app) {
-      throw new Error('detaching an app that wasn\'t attached in the first place');
-    }
-    this.appInstance = null;
   }
 
   getRoute(path: string): Route {
@@ -47,16 +36,6 @@ class DefaultRouter implements Router {
 
   getCurrentRoute(): RouteId {
     return this.getCurrentRoute;
-  }
-
-  addRouteChangeListener(listener: RouteChangeListener): RouteListenerUnsubscribe {
-    this.listeners.push(listener);
-    return () => {
-      const idx = this.listeners.indexOf(listener);
-      if (idx >= 0) {
-        this.listeners.splice(idx, 1);
-      }
-    };
   }
 
   show(path: string, params?: object): Promise<Scene> {
