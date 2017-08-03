@@ -5,16 +5,23 @@ import React from 'react';
 import { Route, RouterInterface, RouteChangeListener } from '../types';
 import Frame from '../Frame';
 
+import findRoute from './findRoute';
+
 class Router implements RouterInterface {
   routes: Array<Route>;
   currentRoute: Route;
   frame: Frame;
   listeners: Array<RouteChangeListener>
 
+  routeStack: Array<Route>;
+
   constructor(routes: Array<Route>) {
     this.routes = routes;
-
+    this.listeners = [];
     this.currentRoute = routes[0];
+    this.frame = null;
+
+    this.routeStack = [];
   }
 
   getCurrentRoute() {
@@ -22,7 +29,7 @@ class Router implements RouterInterface {
   }
 
   attach(frame: Frame) {
-    if (this.frame !== frame) {
+    if (this.frame !== null) {
       throw new Error('Trying to attach multiple frames. There must be one and only one <Frame /> within an <App />');
     }
 
@@ -46,13 +53,55 @@ class Router implements RouterInterface {
     };
   }
 
+  setPath(path) {
+    // Does it start with a '/' in which case, search for the root router
+    const res = findRoute(path, this.routes);
+
+    // Make sure we have found a route for the given path
+    // And its not the current route
+    if (res.route && res.route !== this.currentRoute) {
+      this.routeStack.push(this.currentRoute);
+
+      this.setCurrentRoute(res.route);
+    }
+  }
+
+  canBack() {
+    return this.routeStack.length > 0;
+  }
+
+  getBackRoute() {
+    if (this.routeStack.length === 0) {
+      return null;
+    }
+    return this.routeStack[this.routeStack.length - 1];
+  }
+
+  setCurrentRoute(route) {
+    this.currentRoute = route;
+
+    // Fire up all the listeners
+    this.listeners.forEach(listener => listener(this));
+
+    // Update the frame
+    this.frame.forceUpdate();
+  }
+
+  back = () => {
+    if (this.routeStack.length === 0) {
+      return;
+    }
+
+    const route = this.routeStack.pop();
+    this.setCurrentRoute(route);
+  }
+
   startTransition() {
     // Start any animation here
   }
 
   render({ width, height }) {
     const Screen = this.currentRoute.screen;
-
     return <Screen />;
   }
 }

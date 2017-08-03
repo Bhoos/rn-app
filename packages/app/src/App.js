@@ -24,7 +24,9 @@ class App extends Component <DefaultProps, Props, State> {
   };
 
   getChildContext() {
-    return this.props.router;
+    return {
+      router: this.props.router,
+    };
   }
 
   render() {

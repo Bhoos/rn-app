@@ -26,7 +26,7 @@ class Link extends Component {
   static propTypes = {
     path: PropTypes.string.isRequired,
     children: PropTypes.oneOfType(PropTypes.node, PropTypes.arrayOf(PropTypes.node)),
-    text: oneAndOnlyOne,
+    text: PropTypes.string,
   }
 
   static defaultProps = {

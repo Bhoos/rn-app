@@ -8,12 +8,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 
-import Router from './routers';
+import Router from './routers/Router';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     overflow: 'hidden',
+    backgroundColor: '#eee',
   }
 });
 
