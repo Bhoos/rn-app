@@ -18,10 +18,16 @@ class Router implements RouterInterface {
   constructor(routes: Array<Route>) {
     this.routes = routes;
     this.listeners = [];
-    this.currentRoute = routes[0];
+    this.currentRoute = null;
     this.frame = null;
 
     this.routeStack = [];
+  }
+
+  setInitialPath(path) {
+    const res = findRoute(path, this.routes);
+    this.currentRoute = res.route || this.routes[0];
+    return res.remaining;
   }
 
   getCurrentRoute() {

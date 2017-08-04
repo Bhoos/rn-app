@@ -13,7 +13,7 @@ const rootRouter = DefaultRouter([
 ]);
 
 const ShowcaseDemo = () => (
-  <App router={rootRouter}>
+  <App router={rootRouter} initialPath="">
     <View style={StyleSheet.absoluteFill}>
       <NavigationBar />
       <Frame />
