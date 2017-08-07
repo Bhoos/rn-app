@@ -27,6 +27,11 @@ class Router implements RouterInterface {
   setInitialPath(path) {
     const res = findRoute(path, this.routes);
     this.currentRoute = res.route || this.routes[0];
+
+    // Setup a back route if the initial path has been provided
+    if (this.currentRoute !== this.routes[0] && this.routes[0].path === '') {
+      this.routeStack.push(this.routes[0]);
+    }
     return res.remaining;
   }
 
